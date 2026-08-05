@@ -14,6 +14,8 @@ Features include (these are all a work in progress):
 - on-disk or in-memory caching so you can choose higher speed or lower memory use
 - Configurable U/I hints so you can comforably run `woaf` behind a proxy or load balancer
 
+This project was inspired by the excellent [woof](https://github.com/simon-budig/woof) and [wurf](https://github.com/nasqueron/wurf) tools, but is not a fork or rewrite of either of them.
+
 ## Usage Instructions
 Usage instuctions coming soon!
 
