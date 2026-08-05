@@ -6,9 +6,9 @@ authors = ["Tyler Bevan <tyler.bevan@apexnorthwest.com>"]
 description = "Offer and Accept files over HTTP/S anywhere you have a terminal!"
 readme = "README.md"
 repository = "https://github.com/apexnorthwest/woaf"
+homepage = "https://github.com/apexnorthwest/woaf"
 license = "Apache-2.0"
 exclude = [".github", "target/", ".*"]
-publish = ["woaf"]
 default-run = "woaf"
 
 [dependencies]
