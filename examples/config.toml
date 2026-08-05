@@ -1,0 +1,65 @@
+# Config file for woaf.
+# Can be created at /etc/woaf/woaf.toml and $HOME/.config/woaf.toml with the home folder having higher priority.
+# Options passed as cli parameters will override both.
+# All options can be omitted and have default behavior if not set
+
+## Main config settings
+[woaf]
+
+# Should woaf cache the files to offer in memory. 
+# Speeds up downloads and removes the need for a temp file when offering a directory archive.
+# Default: false
+memory_cache = false
+
+# Archive format used for directory offers. Valid values are "tar", "gz", "bz2", "zstd", "zip"
+# Default: zip (for compatibility)
+archive_method = zip
+
+# Maximum upload size in bytes
+# Default: 8589934592 (8 GiB)
+maximum_upload_size = 8589934592
+
+# Download count limit before automatic exit
+# Default: 1
+download_limit = 1
+
+# Upload count limit before automatic exit
+# Default: 1
+upload_limit = 1
+
+# What ip to listen on
+# Default: "0.0.0.0", which is all interfaces
+listen_ip = "0.0.0.0"
+
+# What port to listen on, defaults to automatically selecting an open port.
+# woaf will attempt to use 8080 for http and 8443 for https if they're available and this is undefined
+# If set, woaf will abort if the port is busy
+# Default: unset
+#listen_port = 8080
+
+# List of hostnames that resolve to this system
+# This is not enforced, but is used by the cli to provide easy copy-paste urls for you.
+# Default: unset
+#hostnames = [
+#    "my-computer.example.com"
+#]
+
+
+## TLS related settings
+[https]
+
+# Should https be enabled. IF true, a key file and certificate file are required.
+# Default: false
+enabled = false
+
+# Passphrase to decrypt the private key.
+# Default: unset, as an empty password is not the same as no password.
+#key_passphrase = ""
+
+# Path to the private key file. File must be in PEM format
+# Default: unset
+#key_file = ""
+
+# Path to the certificate file. File must be in PEM format
+# Default: unset
+#cert_file = ""
