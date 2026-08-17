@@ -1,7 +1,7 @@
 //! Module `cli` contains the main command interface functionality.
 
-use clap::Parser;
 use crate::config::{WoafConfig, get_config, print_config};
+use clap::Parser;
 
 /// CLIArgs represents the command line arguments for the application.
 #[derive(Parser, Debug)]
@@ -11,19 +11,34 @@ pub struct CLIArgs {
     #[arg(short = 'd', long = "debug", help = "Enable debug mode")]
     pub debug: bool,
     /// Flag to enable upload mode (default is download mode)
-    #[arg(short = 'u', long = "upload", help = "Flag to enable upload mode (default is download mode)")]
+    #[arg(
+        short = 'u',
+        long = "upload",
+        help = "Flag to enable upload mode (default is download mode)"
+    )]
     pub upload: bool,
     /// Path to the config file (disables all other config sources)
-    #[arg(short = 'c', long = "config-file", help = "Path to the config file (disables all other config files, including global)")]
+    #[arg(
+        short = 'c',
+        long = "config-file",
+        help = "Path to the config file (disables all other config files, including global)"
+    )]
     pub config_file: Option<String>,
     /// Enable in-memory caching
     #[arg(long = "memory-cache", help = "Enable in-memory caching")]
     pub memory_cache: bool,
     /// Set the archive method (bz2, gzip, tar, zip, zstd)
-    #[arg(long = "archive-method", help = "Set the archive method (bz2, gzip, tar, zip, zstd)")]
+    #[arg(
+        long = "archive-method",
+        help = "Set the archive method (bz2, gzip, tar, zip, zstd)"
+    )]
     pub archive_method: Option<String>,
     /// Set the maximum upload size in bytes
-    #[arg(short = 's', long = "maximum-upload-size", help = "Set the maximum upload size in bytes")]
+    #[arg(
+        short = 's',
+        long = "maximum-upload-size",
+        help = "Set the maximum upload size in bytes"
+    )]
     pub maximum_upload_size: Option<u64>,
     /// Set the maximum download count
     #[arg(long = "download-limit", help = "Set the maximum download count")]
@@ -38,7 +53,11 @@ pub struct CLIArgs {
     #[arg(short = 'p', long = "listen-port", help = "Set the listen port")]
     pub listen_port: Option<u16>,
     /// Set the hostnames (comma-separated)
-    #[arg(short = 'H', long = "hostnames", help = "Set the hostnames (comma-separated)")]
+    #[arg(
+        short = 'H',
+        long = "hostnames",
+        help = "Set the hostnames (comma-separated)"
+    )]
     pub hostnames: Option<String>,
     /// Enable HTTPS
     #[arg(long = "https", help = "Enable HTTPS")]
@@ -54,7 +73,9 @@ pub struct CLIArgs {
     pub cert_path: Option<String>,
     /// Set the target directory or file for the application to operate on
     /// This is a positional argument and is required.
-    #[arg(help = "Set the target directory or file to offer for download. For upload mode, this must be a directory and already exist.")]
+    #[arg(
+        help = "Set the target directory or file to offer for download. For upload mode, this must be a directory and already exist."
+    )]
     pub target: String,
 }
 

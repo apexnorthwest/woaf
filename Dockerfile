@@ -9,4 +9,4 @@ RUN CARGO_BUILD_WARNINGS=deny cargo build --release --target x86_64-unknown-linu
 # FROM gcr.io/distroless/cc-debian13:latest
 FROM gcr.io/distroless/cc-debian13@sha256:ed7c407fd64eb0af9dddb9456b94cee188a40a7f53cf38c9836e1e9ae14fca02 AS release
 COPY --from=builder /app/target/x86_64-unknown-linux-gnu/release/woaf /woaf
-CMD ["/woaf"]
+ENTRYPOINT ["/woaf"]

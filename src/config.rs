@@ -1,9 +1,9 @@
 //! Module `config` handles parsing config files, cli options, and setting defaults
 
-use crate::cli::{CLIArgs};
+use crate::cli::CLIArgs;
 use serde::Deserialize;
-use std::fs::exists;
 use std::fmt;
+use std::fs::exists;
 
 #[allow(dead_code)]
 /// ArchiveMethod represents the supported archive methods for the application.
@@ -75,27 +75,41 @@ pub fn get_config(args: &CLIArgs) -> Result<WoafConfig, String> {
     let mut merged: WoafConfig = get_defaults();
     if let Some(ref config_file_path) = args.config_file {
         if exists(config_file_path).unwrap() {
-            let config_str = std::fs::read_to_string(config_file_path).map_err(|e| format!("Failed to read config file: {}", e))?;
-            let config: WoafTOMLConfig = toml::from_str(&config_str).map_err(|e| format!("Failed to parse config file: {}", e))?;
-            merged = merge_configs(merged, config).map_err(|e| format!("Failed to merge config file: {}", e))?;
+            let config_str = std::fs::read_to_string(config_file_path)
+                .map_err(|e| format!("Failed to read config file: {}", e))?;
+            let config: WoafTOMLConfig = toml::from_str(&config_str)
+                .map_err(|e| format!("Failed to parse config file: {}", e))?;
+            merged = merge_configs(merged, config)
+                .map_err(|e| format!("Failed to merge config file: {}", e))?;
         } else {
-            return Err(format!("Config file not found at path: {}", config_file_path));
+            return Err(format!(
+                "Config file not found at path: {}",
+                config_file_path
+            ));
         }
     } else {
         if exists("/etc/woaf/woaf.toml").unwrap() {
-            let system_config_str = std::fs::read_to_string("/etc/woaf/woaf.toml").map_err(|e| format!("Failed to read config file: {}", e))?;
-            let system_config: WoafTOMLConfig = toml::from_str(&system_config_str).map_err(|e| format!("Failed to parse config file: {}", e))?;
-            merged = merge_configs(merged, system_config).map_err(|e| format!("Failed to merge config file: {}", e))?;
+            let system_config_str = std::fs::read_to_string("/etc/woaf/woaf.toml")
+                .map_err(|e| format!("Failed to read config file: {}", e))?;
+            let system_config: WoafTOMLConfig = toml::from_str(&system_config_str)
+                .map_err(|e| format!("Failed to parse config file: {}", e))?;
+            merged = merge_configs(merged, system_config)
+                .map_err(|e| format!("Failed to merge config file: {}", e))?;
         }
         if exists(std::env::home_dir().unwrap().join(".config/woaf.toml")).unwrap() {
-            let user_config_str = std::fs::read_to_string(std::env::home_dir().unwrap().join(".config/woaf.toml")).map_err(|e| format!("Failed to read config file: {}", e))?;
-            let user_config: WoafTOMLConfig = toml::from_str(&user_config_str).map_err(|e| format!("Failed to parse config file: {}", e))?;
-            merged = merge_configs(merged, user_config).map_err(|e| format!("Failed to merge config file: {}", e))?;
+            let user_config_str =
+                std::fs::read_to_string(std::env::home_dir().unwrap().join(".config/woaf.toml"))
+                    .map_err(|e| format!("Failed to read config file: {}", e))?;
+            let user_config: WoafTOMLConfig = toml::from_str(&user_config_str)
+                .map_err(|e| format!("Failed to parse config file: {}", e))?;
+            merged = merge_configs(merged, user_config)
+                .map_err(|e| format!("Failed to merge config file: {}", e))?;
         }
     }
     let cli_config: WoafTOMLConfig = convert_cliargs_to_tomlconfig(args);
-    
-    merged = merge_configs(merged, cli_config).map_err(|e| format!("Failed to merge config file: {}", e))?;
+
+    merged = merge_configs(merged, cli_config)
+        .map_err(|e| format!("Failed to merge config file: {}", e))?;
     Ok(merged)
 }
 
@@ -127,7 +141,10 @@ fn convert_cliargs_to_tomlconfig(args: &CLIArgs) -> WoafTOMLConfig {
         upload_limit: args.upload_limit,
         listen_ip: args.listen_ip.clone(),
         listen_port: args.listen_port,
-        hostnames: args.hostnames.clone().map(|h| h.split(',').map(|s| s.trim().to_string()).collect()),
+        hostnames: args
+            .hostnames
+            .clone()
+            .map(|h| h.split(',').map(|s| s.trim().to_string()).collect()),
         https: args.https.map(|enabled| WoafHTTPSConfig {
             enabled: Some(enabled),
             key_passphrase: args.key_passphrase.clone(),
@@ -150,7 +167,12 @@ fn merge_configs(base: WoafConfig, override_config: WoafTOMLConfig) -> Result<Wo
             "tar" => ArchiveMethod::Tar,
             "zip" => ArchiveMethod::Zip,
             "zstd" => ArchiveMethod::Zstd,
-            _ => return Err(format!("Invalid archive method: {}", archive_method_str.as_str())),
+            _ => {
+                return Err(format!(
+                    "Invalid archive method: {}",
+                    archive_method_str.as_str()
+                ));
+            }
         };
     }
     if let Some(maximum_upload_size) = override_config.maximum_upload_size {

@@ -61,8 +61,9 @@
 
 mod cli;
 mod config;
+mod fileoffer;
 #[allow(unused_imports)]
-use libarchive2::{WriteArchive, ArchiveFormat, CompressionFormat};
+use libarchive2::{ArchiveFormat, CompressionFormat, WriteArchive};
 
 /// Main entrypoint, simply calls cli::run() and nothing else.
 /// This keeps main.rs clean.
